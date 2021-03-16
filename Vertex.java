@@ -18,6 +18,8 @@ public class Vertex<T> {
 	private LinkedList<Edge<T>> adj;
 	
 	private int distanceFromStart;
+	
+	private Vertex<T> previous;
 
 	/**
 	 * Creates a new Vertex object, using the given ID.
@@ -64,11 +66,19 @@ public class Vertex<T> {
 		return s;
 	}
 	
+	public int getDistance() {
+		return distanceFromStart;
+	}
+
 	public void setDistance(int distance) {
 		distanceFromStart = distance;
 	}
 	
-	public int getDistance() {
-		return distanceFromStart;
+	public Vertex<T> getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(Vertex<T> previous) {
+		this.previous = previous;
 	}
 }

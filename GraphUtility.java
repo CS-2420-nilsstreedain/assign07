@@ -32,23 +32,22 @@ public class GraphUtility {
 	 */
 	public static <Type> boolean areConnected(List<Type> sources, List<Type> destinations, Type srcData, Type dstData)
 			throws IllegalArgumentException {
+			
+		return false;
+	}
+
+	public static <Type> List<Type> shortestPath(List<Type> sources, List<Type> destinations, Type srcData,
+			Type dstData) throws IllegalArgumentException {
 		
 		Graph<Type> graphToTraverse = new Graph<>();
 		
 		Iterator<Type> sourcesIterator = sources.iterator();
 		Iterator<Type> destinationsIterator = destinations.iterator();
 		
-		while(sourcesIterator.hasNext() && destinationsIterator.hasNext()) {
+		while(sourcesIterator.hasNext() && destinationsIterator.hasNext())
 			graphToTraverse.addEdge(sourcesIterator.next(), destinationsIterator.next());
-		}
 		
-		return graphToTraverse.areConnected(srcData, dstData);
-	}
-
-	public static <Type> List<Type> shortestPath(List<Type> sources, List<Type> destinations, Type srcData,
-			Type dstData) throws IllegalArgumentException {
-		// FILL IN + ADD METHOD COMMENT
-		return null;
+		return graphToTraverse.shortestPath(srcData, dstData);
 	}
 
 	public static <Type> List<Type> sort(List<Type> sources, List<Type> destinations) throws IllegalArgumentException {

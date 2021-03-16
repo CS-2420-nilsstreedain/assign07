@@ -3,12 +3,13 @@ package assign07;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
- * Represents a sparse, unweighted, directed graph (a set of vertices and a set of edges). 
+ * Represents a sparse, unweighted, directed graph (a set of vertices and a set of edges).
  * The graph is not generic and assumes that a string name is stored at each vertex.
- * 
+ *
  * @author Erin Parker, Paul Nuffer & Nils Streedain
  * @version March 10, 2021
  */
@@ -16,32 +17,58 @@ public class Graph<GraphType> {
 
 	// the graph -- a set of vertices (GraphType mapped to Vertex instance)
 	private HashMap<GraphType, Vertex<GraphType>> vertices;
-	
+
 	public boolean areConnected(GraphType srcData, GraphType dstData) {
-		
-		Queue<Vertex<GraphType>> verticesToVisit = new LinkedList<Vertex<GraphType>>();
-		verticesToVisit.offer(vertices.get(srcData));
-		
-		while(verticesToVisit.size() > 0) {
-			
-		}
-		
+
 		return false;
 	}
 
+	public List<GraphType> shortestPath(GraphType srcData, GraphType dstData) {
+
+		Queue<Vertex<GraphType>> verticesToVisit = new LinkedList<Vertex<GraphType>>();
+		
+		verticesToVisit.offer(vertices.get(srcData));
+		while(verticesToVisit.size() > 0) {
+			Vertex<GraphType> x = verticesToVisit.poll();
+			while(x.edges().hasNext()) {
+				Edge<GraphType> e = x.edges().next();
+				Vertex<GraphType> w = e.getOtherVertex();
+				if (w.getDistance() == -1) {
+					w.setDistance(x.getDistance() + 1);
+					w.setPrevious(x);
+					verticesToVisit.offer(w);
+				}
+			}
+		}
+		
+		LinkedList<GraphType> path = new LinkedList<>();
+		
+		verticesToVisit.offer(vertices.get(dstData));
+		while(verticesToVisit.size() > 0) {
+			Vertex<GraphType> x = verticesToVisit.poll();
+			
+			if (!vertices.get(verticesToVisit.peek()).equals(srcData)) {
+				path.addFirst(x.getID());
+				verticesToVisit.offer(x.getPrevious());
+			}
+		}
+		
+		return path;
+	}
+	
 	/**
 	 * Constructs an empty graph.
 	 */
 	public Graph() {
 		vertices = new HashMap<GraphType, Vertex<GraphType>>();
-		
+
 	}
-	
+
 	/**
-	 * Adds to the graph a directed edge from the vertex with ID "ID1" 
-	 * to the vertex with ID "ID2".  (If either vertex does not already 
+	 * Adds to the graph a directed edge from the vertex with ID "ID1"
+	 * to the vertex with ID "ID2".  (If either vertex does not already
 	 * exist in the graph, it is added.)
-	 * 
+	 *
 	 * @param ID1 - string ID for source vertex
 	 * @param ID2 - string ID for destination vertex
 	 */
@@ -69,22 +96,22 @@ public class Graph<GraphType> {
 		// add new directed edge from vertex1 to vertex2
 		vertex1.addEdge(vertex2);
 	}
-	
+
 	/**
-	 * Generates the DOT encoding of this graph as string, which can be 
+	 * Generates the DOT encoding of this graph as string, which can be
 	 * pasted into http://www.webgraphviz.com to produce a visualization.
 	 */
 	public String generateDot() {
 		StringBuilder dot = new StringBuilder("digraph d {\n");
-		
-		// for every vertex 
+
+		// for every vertex
 		for(Vertex<GraphType> v : vertices.values()) {
 			// for every edge
 			Iterator<Edge<GraphType>> edges = v.edges();
 			while (edges.hasNext())
 				dot.append("\t" + v.getID() + " -> " + edges.next() + "\n");
 		}
-		
+
 		return dot.toString() + "}";
 	}
 
@@ -93,10 +120,10 @@ public class Graph<GraphType> {
 	 */
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		
+
 		for(Vertex<GraphType> v : vertices.values())
 			result.append(v + "\n");
-		
+
 		return result.toString();
 	}
 }

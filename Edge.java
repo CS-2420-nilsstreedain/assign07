@@ -27,7 +27,7 @@ public class Edge<VertexType> {
 	/**
 	 * @return the destination Vertex of this Edge
 	 */
-	public Vertex<VertexType> getOterVertex() {
+	public Vertex<VertexType> getOtherVertex() {
 		return this.dst;
 	}
 	
