@@ -2,6 +2,8 @@ package assign07;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Represents a sparse, unweighted, directed graph (a set of vertices and a set of edges). 
@@ -14,12 +16,25 @@ public class Graph<GraphType> {
 
 	// the graph -- a set of vertices (GraphType mapped to Vertex instance)
 	private HashMap<GraphType, Vertex<GraphType>> vertices;
+	
+	public boolean areConnected(GraphType srcData, GraphType dstData) {
+		
+		Queue<Vertex<GraphType>> verticesToVisit = new LinkedList<Vertex<GraphType>>();
+		verticesToVisit.offer(vertices.get(srcData));
+		
+		while(verticesToVisit.size() > 0) {
+			
+		}
+		
+		return false;
+	}
 
 	/**
 	 * Constructs an empty graph.
 	 */
-	private Graph() {
+	public Graph() {
 		vertices = new HashMap<GraphType, Vertex<GraphType>>();
+		
 	}
 	
 	/**

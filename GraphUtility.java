@@ -3,6 +3,7 @@ package assign07;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,7 +17,7 @@ import java.util.Scanner;
 public class GraphUtility {
 
 	/**
-	 * This method must use the depth-first search algorithm presented in lecture to
+	 * (Driver Method) This method must use the depth-first search algorithm presented in lecture to
 	 * determine whether there is a path from the vertex with srcData to the vertex
 	 * with dstData in the graph. Throws an IllegalArgumentException if there does
 	 * not exist a vertex in the graph with srcData, and likewise for dstData.
@@ -31,8 +32,17 @@ public class GraphUtility {
 	 */
 	public static <Type> boolean areConnected(List<Type> sources, List<Type> destinations, Type srcData, Type dstData)
 			throws IllegalArgumentException {
-		// FILL IN + ADD METHOD COMMENT
-		return false;
+		
+		Graph<Type> graphToTraverse = new Graph<>();
+		
+		Iterator<Type> sourcesIterator = sources.iterator();
+		Iterator<Type> destinationsIterator = destinations.iterator();
+		
+		while(sourcesIterator.hasNext() && destinationsIterator.hasNext()) {
+			graphToTraverse.addEdge(sourcesIterator.next(), destinationsIterator.next());
+		}
+		
+		return graphToTraverse.areConnected(srcData, dstData);
 	}
 
 	public static <Type> List<Type> shortestPath(List<Type> sources, List<Type> destinations, Type srcData,

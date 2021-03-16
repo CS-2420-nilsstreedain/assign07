@@ -5,7 +5,7 @@ package assign07;
  * vertex in a directed graph
  * 
  * The source of this edge is the Vertex whose object has an adjacency list
- * containg this edge.
+ * containing this edge.
  * 
  * @author Erin Parker, Paul Nuffer & Nils Streedain
  * @version March 10, 2021

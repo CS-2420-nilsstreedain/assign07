@@ -16,6 +16,8 @@ public class Vertex<T> {
 
 	// adjacency list
 	private LinkedList<Edge<T>> adj;
+	
+	private int distanceFromStart;
 
 	/**
 	 * Creates a new Vertex object, using the given ID.
@@ -25,6 +27,7 @@ public class Vertex<T> {
 	public Vertex(T ID) {
 		this.ID = ID;
 		this.adj = new LinkedList<Edge<T>>();
+		distanceFromStart = -1;
 	}
 
 	/**
@@ -59,5 +62,13 @@ public class Vertex<T> {
 		while (itr.hasNext())
 			s += itr.next() + " ";
 		return s;
+	}
+	
+	public void setDistance(int distance) {
+		distanceFromStart = distance;
+	}
+	
+	public int getDistance() {
+		return distanceFromStart;
 	}
 }
