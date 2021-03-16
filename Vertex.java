@@ -15,7 +15,7 @@ public class Vertex<T> {
 	private T ID;
 
 	// adjacency list
-	private LinkedList<Edge> adj;
+	private LinkedList<Edge<T>> adj;
 
 	/**
 	 * Creates a new Vertex object, using the given ID.
@@ -24,7 +24,7 @@ public class Vertex<T> {
 	 */
 	public Vertex(T ID) {
 		this.ID = ID;
-		this.adj = new LinkedList<Edge>();
+		this.adj = new LinkedList<Edge<T>>();
 	}
 
 	/**
@@ -40,13 +40,13 @@ public class Vertex<T> {
 	 * @param otherVertex - the Vertex object that is the destination of the edge
 	 */
 	public void addEdge(Vertex<T> otherVertex) {
-		adj.add(new Edge(otherVertex));
+		adj.add(new Edge<T>(otherVertex));
 	}
 	
 	/**
 	 * @return an iterator for accessing the edges for which this Vertex is the source
 	 */
-	public Iterator<Edge> edges() {
+	public Iterator<Edge<T>> edges() {
 		return adj.iterator();
 	}
 	
@@ -55,7 +55,7 @@ public class Vertex<T> {
 	 */
 	public String toString() {
 		String s = "Vertex " + ID + " adjacent to verticies ";
-		Iterator<Edge> itr = adj.iterator();
+		Iterator<Edge<T>> itr = adj.iterator();
 		while (itr.hasNext())
 			s += itr.next() + " ";
 		return s;
