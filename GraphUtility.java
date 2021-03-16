@@ -10,7 +10,7 @@ import java.util.Scanner;
  * Contains several methods for solving problems on generic, directed,
  * unweighted, sparse graphs.
  * 
- * @author Erin Parker & ??
+ * @author Erin Parker, Paul Nuffer & Nils Streedain
  * @version March 10, 2021
  */
 public class GraphUtility {
