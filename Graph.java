@@ -88,6 +88,7 @@ public class Graph<GraphType> {
 				Edge<GraphType> e = x.edges().next();
 				Vertex<GraphType> w = e.getOtherVertex();
 				if (w.getDistance() == -1) {
+					//add something around here to break out of loop early when the path reaches the destination vertex
 					w.setDistance(x.getDistance() + 1);
 					w.setPrevious(x);
 					verticesToVisit.offer(w);
