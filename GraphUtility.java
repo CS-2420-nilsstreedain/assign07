@@ -85,6 +85,13 @@ public class GraphUtility {
 		return graphToTraverse.shortestPath(srcData, dstData);
 	}
 
+	/**This method topographically sorts the graph passed in via the sources and destinations lists.
+	 * @param <Type> The generic type for the ID of each vertex in the graph
+	 * @param sources - a list of sources
+	 * @param destinations - a list of destinations
+	 * @return a new list with all IDs sorted in topographical sort order
+	 * @throws IllegalArgumentException if the graph contains a cycle
+	 */
 	public static <Type> List<Type> sort(List<Type> sources, List<Type> destinations) throws IllegalArgumentException {
 		
 		Graph<Type> graphToTraverse = createGraphFromLists(sources, destinations);
