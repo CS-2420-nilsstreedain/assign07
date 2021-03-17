@@ -17,36 +17,71 @@ import java.util.Scanner;
 public class GraphUtility {
 
 	/**
-	 * (Driver Method) This method must use the depth-first search algorithm presented in lecture to
-	 * determine whether there is a path from the vertex with srcData to the vertex
-	 * with dstData in the graph. Throws an IllegalArgumentException if there does
-	 * not exist a vertex in the graph with srcData, and likewise for dstData.
+	 * @param <Type>       the ID type for the graph
+	 * @param sources      - the list of source IDs
+	 * @param destinations - the list of destinations IDs
+	 * @return a Graph object containing Vertices with Edges properly representing
+	 *         the graph of IDs
+	 */
+	private static <Type> Graph<Type> createGraphFromLists(List<Type> sources, List<Type> destinations) {
+
+		Graph<Type> graph = new Graph<>();
+
+		Iterator<Type> sourcesIterator = sources.iterator();
+		Iterator<Type> destinationsIterator = destinations.iterator();
+
+		while (sourcesIterator.hasNext() && destinationsIterator.hasNext())
+			graph.addEdge(sourcesIterator.next(), destinationsIterator.next());
+
+		return graph;
+	}
+
+	/**
+	 * (Driver Method) This method must use the depth-first search algorithm
+	 * presented in lecture to determine whether there is a path from the vertex
+	 * with srcData to the vertex with dstData in the graph. Throws an
+	 * IllegalArgumentException if there does not exist a vertex in the graph with
+	 * srcData, and likewise for dstData.
 	 * 
-	 * @param <Type> The generic type for the ID of each vertex in the graph
-	 * @param sources - a list of sources
+	 * @param <Type>       The generic type for the ID of each vertex in the graph
+	 * @param sources      - a list of sources
 	 * @param destinations - a list of destinations
-	 * @param srcData - the beginning vertex to start at
-	 * @param dstData - the vertex to reach
+	 * @param srcData      - the beginning vertex to start at
+	 * @param dstData      - the vertex to reach
 	 * @return true if the two vertexes are connected, false otherwise
-	 * @throws IllegalArgumentException if there does not exist a vertex in the graph with srcData or dstData
+	 * @throws IllegalArgumentException if there does not exist a vertex in the
+	 *                                  graph with srcData or dstData
 	 */
 	public static <Type> boolean areConnected(List<Type> sources, List<Type> destinations, Type srcData, Type dstData)
 			throws IllegalArgumentException {
-			
-		return false;
+
+		Graph<Type> graphToTraverse = createGraphFromLists(sources, destinations);
+
+		return graphToTraverse.areConnected(srcData, dstData);
 	}
 
+	/**
+	 * This method must use the breadth-first search algorithm presented in lecture
+	 * to find a shortest path from the vertex with srcData to the vertex with
+	 * dstData in the graph. 
+	 * 
+	 * @param <Type>       The generic type for the ID of each vertex in the graph
+	 * @param sources      - a list of sources
+	 * @param destinations - a list of destinations
+	 * @param srcData      - the beginning vertex to start at
+	 * @param dstData      - the vertex to find the shortest path to
+	 * @return an ordered list containing the shortest path from srcData to dstData
+	 * @throws IllegalArgumentException if there does not exist a vertex in the
+	 *                                  graph with srcData, and likewise for
+	 *                                  dstData. Also, throws an
+	 *                                  IllegalArgumentException if there does not
+	 *                                  exist a path between the two vertices.
+	 */
 	public static <Type> List<Type> shortestPath(List<Type> sources, List<Type> destinations, Type srcData,
 			Type dstData) throws IllegalArgumentException {
-		
-		Graph<Type> graphToTraverse = new Graph<>();
-		
-		Iterator<Type> sourcesIterator = sources.iterator();
-		Iterator<Type> destinationsIterator = destinations.iterator();
-		
-		while(sourcesIterator.hasNext() && destinationsIterator.hasNext())
-			graphToTraverse.addEdge(sourcesIterator.next(), destinationsIterator.next());
-		
+
+		Graph<Type> graphToTraverse = createGraphFromLists(sources, destinations);
+
 		return graphToTraverse.shortestPath(srcData, dstData);
 	}
 
