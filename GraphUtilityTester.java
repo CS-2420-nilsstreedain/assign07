@@ -189,4 +189,19 @@ class GraphUtilityTester {
 					+ "}", complexAcyclicGraph.generateDot());
 	}
 	
+//Graph Class Graph Traversal Methods
+	@Test
+	void testAreConnectedChainGraph() {
+		assertTrue(chainGraph.areConnected(1, 2));
+		assertTrue(chainGraph.areConnected(2, 3));
+		assertTrue(chainGraph.areConnected(3, 4));
+		assertTrue(chainGraph.areConnected(1, 3));
+		assertTrue(chainGraph.areConnected(1, 1));
+		assertTrue(chainGraph.areConnected(2, 2));
+		assertTrue(chainGraph.areConnected(3, 3));
+		assertTrue(chainGraph.areConnected(4, 4));
+		assertTrue(chainGraph.areConnected(1, 4));
+		assertFalse(chainGraph.areConnected(2, 1));
+	}
+	
 }
