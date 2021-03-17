@@ -2,6 +2,7 @@ package assign07;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -715,6 +716,50 @@ class GraphUtilityTester {
 		
 		assertFalse(chainGraph.sortedCorrectly(falselySortedList));
 	}
+	
+//GraphUtility Tests
+	
+
+	@Test
+	void buildListsFromDotAreConnected() {
+		ArrayList<String> sources = new ArrayList<>();
+		ArrayList<String> destinations = new ArrayList<>();
+		GraphUtility.buildListsFromDot("src/assign07/largeCyclicGraph.txt", sources, destinations);
+		assertTrue(GraphUtility.areConnected(sources, destinations, "1", "3"));
+	}
+	
+	@Test
+	void shortestPathCS() {
+		ArrayList<String> sources = new ArrayList<>();
+		ArrayList<String> destinations = new ArrayList<>();
+		GraphUtility.buildListsFromDot("src/assign07/examplegraph7.dot", sources, destinations);
+		ArrayList<String> compare = new ArrayList<>();
+		compare.add("CS 1410");
+		compare.add("CS 2420");
+		compare.add("CS 3500");
+		assertEquals(compare, GraphUtility.shortestPath(sources, destinations, "CS 1410", "CS 3500"));
+	}
+	
+	@Test
+	void shortestPathExample2() {
+		ArrayList<String> sources = new ArrayList<>();
+		ArrayList<String> destinations = new ArrayList<>();
+		GraphUtility.buildListsFromDot("src/assign07/examplegraph2.dot", sources, destinations);
+		ArrayList<String> compare = new ArrayList<>();
+		compare.add("D");
+		compare.add("B");
+		assertEquals(compare, GraphUtility.shortestPath(sources, destinations, "D", "B"));
+	}
+	
+	@Test
+	void sortCS() {
+		ArrayList<String> sources = new ArrayList<>();
+		ArrayList<String> destinations = new ArrayList<>();
+		GraphUtility.buildListsFromDot("src/assign07/examplegraph7.dot", sources, destinations);
+		List<String> result = GraphUtility.sort(sources, destinations);
+		System.out.println(result);
+	}
+	
 
 	
 }
