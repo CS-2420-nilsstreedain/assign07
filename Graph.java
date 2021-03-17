@@ -90,11 +90,13 @@ public class Graph<GraphType> {
 	 */
 	public List<GraphType> shortestPath(GraphType srcData, GraphType dstData) throws IllegalArgumentException {
 		// srcData and dstData must both exist in the graph, otherwise throw exception
-		if (vertices.get(srcData).equals(null) || vertices.get(dstData).equals(null))
+		if (!vertices.containsKey(srcData) || !vertices.containsKey(dstData))
 			throw new IllegalArgumentException();
 
-		for (Vertex<GraphType> vertex : vertices.values())
+		for (Vertex<GraphType> vertex : vertices.values()) {
 			vertex.setVisited(false);
+			vertex.setHasPrevious(false);
+		}
 
 		Queue<Vertex<GraphType>> verticesToVisit = new LinkedList<Vertex<GraphType>>();
 
@@ -131,7 +133,7 @@ public class Graph<GraphType> {
 		// if the destination vertex's previous value is null, it was never set to
 		// anything, therefore never reached.
 		// in this case, throw exception
-		if (vertices.get(dstData).getPrevious().equals(null))
+		if (!vertices.get(dstData).hasPrevious())
 			throw new IllegalArgumentException();
 
 		LinkedList<GraphType> path = new LinkedList<>();
@@ -143,7 +145,7 @@ public class Graph<GraphType> {
 			// adds current vertex ID to the result path
 			path.addFirst(x.getID());
 			// if the previous vertex is not null, add it to the queue
-			if (!x.getPrevious().equals(null))
+			if (x.hasPrevious())
 				verticesToVisit.offer(x.getPrevious());
 		}
 

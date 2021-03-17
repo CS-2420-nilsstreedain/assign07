@@ -21,6 +21,8 @@ public class Vertex<T> {
 	
 	private Vertex<T> previous;
 	
+	private boolean hasPrevious;
+	
 	private int inDegree;
 
 	/**
@@ -32,6 +34,7 @@ public class Vertex<T> {
 		this.ID = ID;
 		this.adj = new LinkedList<Edge<T>>();
 		visited = false;
+		hasPrevious = false;
 		inDegree = 0;
 	}
 
@@ -83,6 +86,7 @@ public class Vertex<T> {
 
 	public void setPrevious(Vertex<T> previous) {
 		this.previous = previous;
+		hasPrevious = true;
 	}
 
 	public int getInDegree() {
@@ -91,5 +95,14 @@ public class Vertex<T> {
 
 	public void setInDegree(int inDegree) {
 		this.inDegree = inDegree;
+	}
+	
+	
+	public boolean hasPrevious() {
+		return hasPrevious;
+	}
+	
+	public void setHasPrevious(boolean hasPrevious) {
+		this.hasPrevious = hasPrevious;
 	}
 }

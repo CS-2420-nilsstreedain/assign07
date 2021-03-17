@@ -3,6 +3,7 @@ package assign07;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -496,5 +497,18 @@ class GraphUtilityTester {
 	}
 	
 	// shortestPath()
+	@Test
+	void exceptionSortestPathIfNoVertexWithSrcOrDst() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			chainGraph.shortestPath(1, 5);
+		});
+	}
 	
+	@Test
+	void notConnectedGraphPath() {
+		LinkedList<Integer> oneToTwo = new LinkedList<>();
+		oneToTwo.add(1);
+		oneToTwo.add(2);
+		assertEquals(oneToTwo, notConnectedGraph.shortestPath(1, 2));
+	}
 }
