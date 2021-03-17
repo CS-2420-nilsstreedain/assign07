@@ -20,7 +20,7 @@ public class Graph<GraphType> {
 	private HashMap<GraphType, Vertex<GraphType>> vertices;
 
 	/**
-	 * This method must use the depth-first search algorithm presented in lecture to
+	 * (Driver Method) This method must use the depth-first search algorithm presented in lecture to
 	 * determine whether there is a path from the vertex with srcData to the vertex
 	 * with dstData in the graph.
 	 * 
@@ -31,18 +31,31 @@ public class Graph<GraphType> {
 	 *                                  graph with srcData or dstData
 	 */
 	public boolean areConnected(GraphType srcData, GraphType dstData) {
+		//srcData and dstData must both exist in the graph, otherwise throw exception
 		if (vertices.get(srcData).equals(null) || vertices.get(dstData).equals(null))
 			throw new IllegalArgumentException();
 
+		//the first element is the start, so it is already visited
 		vertices.get(srcData).setVisited(true);
 
 		return this.areConnectedPriv(vertices.get(srcData), dstData);
 	}
 
+	/**Recursive method to perform depth-first search to determine whether there is a path
+	 * from the vertex with srcData to the vertex with dstData in the graph.
+	 * @param x, the previous vertex
+	 * @param dstData, the vertex to reach
+	 * @return true if dstData is ever reached, false otherwise
+	 */
 	private boolean areConnectedPriv(Vertex<GraphType> x, GraphType dstData) {
+		//iterate over all the current vertex's edges
 		while (x.edges().hasNext()) {
 			Edge<GraphType> e = x.edges().next();
+			//store vertex w as a vertex x points to
 			Vertex<GraphType> w = e.getOtherVertex();
+			//if w has not been visited yet, check if it's the destination vertex, 
+			//if not, set it to visited, and pass it back to the recursive method to check
+			//all its edges
 			if (w.getVisited() == false) {
 				if (w.getID().equals(dstData))
 					return true;
@@ -50,6 +63,8 @@ public class Graph<GraphType> {
 				areConnectedPriv(w, dstData);
 			}
 		}
+		//reaches here and returns false if none of the edges for any of the vertexes the first vertex
+		//can reach points to the destination vertex
 		return false;
 	}
 
@@ -69,38 +84,54 @@ public class Graph<GraphType> {
 	 *                                  exist a path between the two vertices.
 	 */
 	public List<GraphType> shortestPath(GraphType srcData, GraphType dstData) throws IllegalArgumentException {
+		//srcData and dstData must both exist in the graph, otherwise throw exception
 		if (vertices.get(srcData).equals(null) || vertices.get(dstData).equals(null))
 			throw new IllegalArgumentException();
 
 		Queue<Vertex<GraphType>> verticesToVisit = new LinkedList<Vertex<GraphType>>();
-
+		
+		//add the first vertex to the queue
 		verticesToVisit.offer(vertices.get(srcData));
+		//while there are elements in the queue, check where they direct to
 		while (verticesToVisit.size() > 0) {
 			Vertex<GraphType> x = verticesToVisit.poll();
+			//check each edge that the current vertex x has
 			while (x.edges().hasNext()) {
 				Edge<GraphType> e = x.edges().next();
+				//set w as the destination of an edge from x
 				Vertex<GraphType> w = e.getOtherVertex();
+				//if the destination vertex w has not yet been visited, we're on the fastest
+				//path to visit it. So, set its visited status to true, and add x as the previous
+				//vertex to w, the fastest way to get to w.
 				if (w.getVisited() == false) {
-					// add something around here to break out of loop early when the path reaches
-					// the destination vertex
-					w.setVisited(x.getVisited());
+					w.setVisited(true);
 					w.setPrevious(x);
+					//once the final element is reached, there is no need to give previous vertices to the rest of the graph,
+					//as they will not be used in rebuilding the list
+					if (w.getID().equals(dstData)) {
+						verticesToVisit.clear();
+						break;
+					}	
 					verticesToVisit.offer(w);
 				}
+				
 			}
 		}
-
-		if (vertices.get(dstData).getPrevious().equals(null)) {
+		
+		//if the destination vertex's previous value is null, it was never set to anything, therefore never reached.
+		//in this case, throw exception
+		if (vertices.get(dstData).getPrevious().equals(null)) 
 			throw new IllegalArgumentException();
-		}
 
 		LinkedList<GraphType> path = new LinkedList<>();
 
+		//add the end vertex to the queue
 		verticesToVisit.offer(vertices.get(dstData));
 		while (verticesToVisit.size() > 0) {
 			Vertex<GraphType> x = verticesToVisit.poll();
-
+			//adds current vertex ID to the result path
 			path.addFirst(x.getID());
+			//if the previous vertex is not null, add it to the queue
 			if (!x.getPrevious().equals(null))
 				verticesToVisit.offer(x.getPrevious());
 		}
@@ -108,7 +139,13 @@ public class Graph<GraphType> {
 		return path;
 	}
 	
+	/**This method topographically sorts the graph.
+	 * @param <Type> The generic type for the ID of each vertex in the graph
+	 * @return a new list with all IDs sorted in topographical sort order
+	 * @throws IllegalArgumentException if the graph contains a cycle
+	 */
 	public List<GraphType> sort() throws IllegalArgumentException {
+		//determine the inDegree for all vertices in the graph
 		for (Vertex<GraphType> vertex : vertices.values()) {
 			Iterator<Edge<GraphType>> edges = vertex.edges();
 			
@@ -116,34 +153,50 @@ public class Graph<GraphType> {
 				Edge<GraphType> edge = edges.next();
 				
 				Vertex<GraphType> destination = edge.getOtherVertex();
-				
+				//for every edge that points to a vertex, that vertex's inDegree is incremented by 1.
 				destination.setInDegree(destination.getInDegree() + 1);
 			}
 		}
 		
 		Queue<Vertex<GraphType>> verticesToVisit = new LinkedList<Vertex<GraphType>>();
 		
+		//queues all vertices with 0 inDegree
 		for (Vertex<GraphType> vertex : vertices.values())
 			if (vertex.getInDegree() == 0)
 				verticesToVisit.offer(vertex);
 		
+		Queue<GraphType> sortedQueue = new LinkedList<GraphType>();
+		
+		//continues until all elements' inDegrees have reached 0 and have been removed from 
+		//the verticesToVisit queue
 		while (verticesToVisit.size() != 0) {
+			//stores the current vertex
 			Vertex<GraphType> x = verticesToVisit.poll();
+			//adds the current vertex to the sortedQueue, as if it's being reached, its inDegree is 0,
+			//because only elements with inDegree 0 get added to verticesToVisit
+			sortedQueue.offer(x.getID());
 
+			//for every edge from Vertex x
 			Iterator<Edge<GraphType>> edges = x.edges();
-			
 			while (edges.hasNext()) {
 				Edge<GraphType> edge = edges.next();
 				
+				//for all vertexes vertex x reaches via its edges, decrement their inDegree by 1
 				Vertex<GraphType> w = edge.getOtherVertex();
 				w.setInDegree(w.getInDegree() - 1);
+				//if a vertex was decremented to inDegree 0, add to the queue so it can be checked for
+				//its destinations and added to the sortedQueue
 				if (w.getInDegree() == 0)
 					verticesToVisit.offer(w);
 			}
 		}
 		
-		
-		return null;
+		//if the sortedQueue is smaller than the amount of vertices, there was a cycle somewhere preventing
+		//all the inDegrees from reaching 0. Therefore, throw error as cycles are not permitted
+		if (sortedQueue.size() < vertices.size()) 
+			throw new IllegalArgumentException();
+	
+		return new LinkedList<GraphType>(sortedQueue);
 	}
 
 	/**
