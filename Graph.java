@@ -32,7 +32,7 @@ public class Graph<GraphType> {
 	 */
 	public boolean areConnected(GraphType srcData, GraphType dstData) throws IllegalArgumentException {
 		// srcData and dstData must both exist in the graph, otherwise throw exception
-		if (vertices.get(srcData).equals(null) || vertices.get(dstData).equals(null))
+		if (!vertices.containsKey(srcData) || !vertices.containsKey(dstData))
 			throw new IllegalArgumentException();
 
 		for (Vertex<GraphType> vertex : vertices.values())
@@ -41,13 +41,10 @@ public class Graph<GraphType> {
 		vertices.get(srcData).setVisited(true);
 
 		this.areConnectedPriv(vertices.get(srcData));
-		//if the above recursive call reaches srcData, its visited state
-		//will be set to true, so the below return will return whether
-		//or not the recursive call from src reached dst
-		System.out.println(vertices.get(srcData).getVisited());
-		System.out.println(vertices.get(dstData).getVisited());
+		// if the above recursive call reaches srcData, its visited state
+		// will be set to true, so the below return will return whether
+		// or not the recursive call from src reached dst
 		return (vertices.get(dstData).getVisited());
-
 	}
 
 	/**
@@ -95,7 +92,7 @@ public class Graph<GraphType> {
 		// srcData and dstData must both exist in the graph, otherwise throw exception
 		if (vertices.get(srcData).equals(null) || vertices.get(dstData).equals(null))
 			throw new IllegalArgumentException();
-		
+
 		for (Vertex<GraphType> vertex : vertices.values())
 			vertex.setVisited(false);
 
@@ -163,7 +160,7 @@ public class Graph<GraphType> {
 	public List<GraphType> sort() throws IllegalArgumentException {
 		for (Vertex<GraphType> vertex : vertices.values())
 			vertex.setInDegree(0);
-		
+
 		// determine the inDegree for all vertices in the graph
 		for (Vertex<GraphType> vertex : vertices.values()) {
 			Iterator<Edge<GraphType>> edges = vertex.edges();
