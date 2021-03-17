@@ -510,5 +510,15 @@ class GraphUtilityTester {
 		oneToTwo.add(1);
 		oneToTwo.add(2);
 		assertEquals(oneToTwo, notConnectedGraph.shortestPath(1, 2));
+		
+		assertThrows(IllegalArgumentException.class, () -> {
+			notConnectedGraph.shortestPath(1, 3);
+		});
+		assertThrows(IllegalArgumentException.class, () -> {
+			notConnectedGraph.shortestPath(4, 1);
+		});
+		assertThrows(IllegalArgumentException.class, () -> {
+			notConnectedGraph.shortestPath(99, 55);
+		});
 	}
 }

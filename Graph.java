@@ -57,9 +57,9 @@ public class Graph<GraphType> {
 	 */
 	private void areConnectedPriv(Vertex<GraphType> x) {
 		// iterate over all the current vertex's edges
-		Iterator<Edge<GraphType>> itr = x.edges();
-		while (itr.hasNext()) {
-			Edge<GraphType> e = itr.next();
+		Iterator<Edge<GraphType>> xEdgesIterator = x.edges();
+		while (xEdgesIterator.hasNext()) {
+			Edge<GraphType> e = xEdgesIterator.next();
 			// store vertex w as a vertex x points to
 			Vertex<GraphType> w = e.getOtherVertex();
 			// if w has not been visited yet set it to visited, and pass it back to the
@@ -106,8 +106,9 @@ public class Graph<GraphType> {
 		while (verticesToVisit.size() > 0) {
 			Vertex<GraphType> x = verticesToVisit.poll();
 			// check each edge that the current vertex x has
-			while (x.edges().hasNext()) {
-				Edge<GraphType> e = x.edges().next();
+			Iterator<Edge<GraphType>> xEdgesIterator = x.edges();
+			while (xEdgesIterator.hasNext()) {
+				Edge<GraphType> e = xEdgesIterator.next();
 				// set w as the destination of an edge from x
 				Vertex<GraphType> w = e.getOtherVertex();
 				// if the destination vertex w has not yet been visited, we're on the fastest
