@@ -8,8 +8,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.sun.tools.classfile.CompilationID_attribute;
-
 class GraphUtilityTester {
 	
 	Vertex<Integer> vertex1;
