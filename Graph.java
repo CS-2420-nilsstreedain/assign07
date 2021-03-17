@@ -204,7 +204,6 @@ public class Graph<GraphType> {
 	 */
 	public Graph() {
 		vertices = new HashMap<GraphType, Vertex<GraphType>>();
-
 	}
 
 	/**

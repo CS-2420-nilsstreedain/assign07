@@ -37,5 +37,4 @@ public class Edge<VertexType> {
 	public String toString() {
 		return this.dst.getID().toString();
 	}
-
 }

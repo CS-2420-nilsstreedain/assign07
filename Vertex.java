@@ -62,11 +62,11 @@ public class Vertex<T> {
 	 * Generates and returns a textual representation of this Vertex
 	 */
 	public String toString() {
-		String s = "Vertex " + ID + " adjacent to verticies ";
+		StringBuilder result = new StringBuilder("Vertex " + ID + " adjacent to verticies");
 		Iterator<Edge<T>> itr = adj.iterator();
 		while (itr.hasNext())
-			s += itr.next() + " ";
-		return s;
+			result.append(" " + itr.next());
+		return result.toString();
 	}
 	
 	public boolean getVisited() {
