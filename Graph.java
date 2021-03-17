@@ -33,23 +33,20 @@ public class Graph<GraphType> {
 	public boolean areConnected(GraphType srcData, GraphType dstData) {
 		if (vertices.get(srcData).equals(null) || vertices.get(dstData).equals(null))
 			throw new IllegalArgumentException();
-		
-		for (Vertex<GraphType> vertex : vertices.values())
-			vertex.setDistance(-1);
-		
-		vertices.get(srcData).setDistance(0);
-		
+
+		vertices.get(srcData).setVisited(true);
+
 		return this.areConnectedPriv(vertices.get(srcData), dstData);
 	}
-	
+
 	private boolean areConnectedPriv(Vertex<GraphType> x, GraphType dstData) {
 		while (x.edges().hasNext()) {
 			Edge<GraphType> e = x.edges().next();
 			Vertex<GraphType> w = e.getOtherVertex();
-			if (w.getDistance() == -1) {
+			if (w.getVisited() == false) {
 				if (w.getID().equals(dstData))
 					return true;
-				w.setDistance(1);
+				w.setVisited(true);
 				areConnectedPriv(w, dstData);
 			}
 		}
@@ -72,12 +69,8 @@ public class Graph<GraphType> {
 	 *                                  exist a path between the two vertices.
 	 */
 	public List<GraphType> shortestPath(GraphType srcData, GraphType dstData) throws IllegalArgumentException {
-
-		if (vertices.get(srcData).equals(null) || vertices.get(dstData).equals(null)) 
+		if (vertices.get(srcData).equals(null) || vertices.get(dstData).equals(null))
 			throw new IllegalArgumentException();
-		
-		for (Vertex<GraphType> vertex : vertices.values())
-			vertex.setDistance(-1);
 
 		Queue<Vertex<GraphType>> verticesToVisit = new LinkedList<Vertex<GraphType>>();
 
@@ -87,9 +80,10 @@ public class Graph<GraphType> {
 			while (x.edges().hasNext()) {
 				Edge<GraphType> e = x.edges().next();
 				Vertex<GraphType> w = e.getOtherVertex();
-				if (w.getDistance() == -1) {
-					//add something around here to break out of loop early when the path reaches the destination vertex
-					w.setDistance(x.getDistance() + 1);
+				if (w.getVisited() == false) {
+					// add something around here to break out of loop early when the path reaches
+					// the destination vertex
+					w.setVisited(x.getVisited());
 					w.setPrevious(x);
 					verticesToVisit.offer(w);
 				}
@@ -112,6 +106,44 @@ public class Graph<GraphType> {
 		}
 
 		return path;
+	}
+	
+	public List<GraphType> sort() throws IllegalArgumentException {
+		for (Vertex<GraphType> vertex : vertices.values()) {
+			Iterator<Edge<GraphType>> edges = vertex.edges();
+			
+			while (edges.hasNext()) {
+				Edge<GraphType> edge = edges.next();
+				
+				Vertex<GraphType> destination = edge.getOtherVertex();
+				
+				destination.setInDegree(destination.getInDegree() + 1);
+			}
+		}
+		
+		Queue<Vertex<GraphType>> verticesToVisit = new LinkedList<Vertex<GraphType>>();
+		
+		for (Vertex<GraphType> vertex : vertices.values())
+			if (vertex.getInDegree() == 0)
+				verticesToVisit.offer(vertex);
+		
+		while (verticesToVisit.size() != 0) {
+			Vertex<GraphType> x = verticesToVisit.poll();
+
+			Iterator<Edge<GraphType>> edges = x.edges();
+			
+			while (edges.hasNext()) {
+				Edge<GraphType> edge = edges.next();
+				
+				Vertex<GraphType> w = edge.getOtherVertex();
+				w.setInDegree(w.getInDegree() - 1);
+				if (w.getInDegree() == 0)
+					verticesToVisit.offer(w);
+			}
+		}
+		
+		
+		return null;
 	}
 
 	/**

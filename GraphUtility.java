@@ -86,8 +86,10 @@ public class GraphUtility {
 	}
 
 	public static <Type> List<Type> sort(List<Type> sources, List<Type> destinations) throws IllegalArgumentException {
-		// FILL IN + ADD METHOD COMMENT
-		return null;
+		
+		Graph<Type> graphToTraverse = createGraphFromLists(sources, destinations);
+		
+		return graphToTraverse.sort();
 	}
 
 	/**

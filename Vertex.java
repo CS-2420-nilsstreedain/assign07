@@ -17,9 +17,11 @@ public class Vertex<T> {
 	// adjacency list
 	private LinkedList<Edge<T>> adj;
 	
-	private int distanceFromStart;
+	private boolean visited;
 	
 	private Vertex<T> previous;
+	
+	private int inDegree;
 
 	/**
 	 * Creates a new Vertex object, using the given ID.
@@ -29,7 +31,8 @@ public class Vertex<T> {
 	public Vertex(T ID) {
 		this.ID = ID;
 		this.adj = new LinkedList<Edge<T>>();
-		distanceFromStart = -1;
+		visited = false;
+		inDegree = 0;
 	}
 
 	/**
@@ -66,12 +69,12 @@ public class Vertex<T> {
 		return s;
 	}
 	
-	public int getDistance() {
-		return distanceFromStart;
+	public boolean getVisited() {
+		return visited;
 	}
 
-	public void setDistance(int distance) {
-		distanceFromStart = distance;
+	public void setVisited(boolean visited) {
+		this.visited = visited;
 	}
 	
 	public Vertex<T> getPrevious() {
@@ -80,5 +83,13 @@ public class Vertex<T> {
 
 	public void setPrevious(Vertex<T> previous) {
 		this.previous = previous;
+	}
+
+	public int getInDegree() {
+		return inDegree;
+	}
+
+	public void setInDegree(int inDegree) {
+		this.inDegree = inDegree;
 	}
 }
