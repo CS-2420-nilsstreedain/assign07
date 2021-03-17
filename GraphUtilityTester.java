@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -657,4 +658,63 @@ class GraphUtilityTester {
 		
 		assertEquals(threeToSix, largerAcyclicGraph.shortestPath(3,6));
 	}
+	
+	// sort()
+	@Test
+	void exceptionIfCyclic() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			cycleGraph.sort();
+		});
+	}
+	
+	@Test
+	void emptyGraphSort() {
+		assertThrows(NullPointerException.class, () -> {
+			emptyGraph.sort();
+		});
+	}
+	
+	@Test
+	void notConnectedSort() {
+		assertTrue(notConnectedGraph.sortedCorrectly(notConnectedGraph.sort()));
+	}
+	
+	@Test
+	void chainGraphSort() {
+		assertTrue(chainGraph.sortedCorrectly(chainGraph.sort()));
+	}
+	
+	@Test
+	void treeGraphSort() {
+		assertTrue(treeGraph.sortedCorrectly(treeGraph.sort()));
+	}
+	
+	@Test
+	void complexAcyclicGraphSort() {
+		assertTrue(complexAcyclicGraph.sortedCorrectly(complexAcyclicGraph.sort()));
+	}
+	
+	@Test
+	void largeAcyclicGraphSort() {
+		assertTrue(largeAcyclicGraph.sortedCorrectly(largeAcyclicGraph.sort()));
+	}
+	
+	@Test
+	void largerAcyclicGraphSort() {
+		assertTrue(largerAcyclicGraph.sortedCorrectly(largerAcyclicGraph.sort()));
+	}
+	
+	@Test
+	void falselySortedList() {
+		
+		List<Integer> falselySortedList = new LinkedList<>();
+		falselySortedList.add(4);
+		falselySortedList.add(3);
+		falselySortedList.add(2);
+		falselySortedList.add(1);
+		
+		assertFalse(chainGraph.sortedCorrectly(falselySortedList));
+	}
+
+	
 }

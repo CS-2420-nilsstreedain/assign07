@@ -295,4 +295,32 @@ public class Graph<GraphType> {
 
 		return result.toString();
 	}
+
+	/**
+	 * Testing helper method to check if any list of a Graph is sorted correctly.
+	 * This is done by comparing the indexes of Vertexes with the index of a Vertex
+	 * that Vertex points to. If the first index is higher (index wise) in the list,
+	 * the list is sorted incorrectly and false is returned.
+	 * 
+	 * @param sortedList - The list to be checked if sorted correctly for the Graph
+	 * @return true if the list is a correct sort of the Graph, false otherwise
+	 */
+	public boolean sortedCorrectly(List<GraphType> sortedList) {
+		// Loops over each vertex in the Graph
+		for (Vertex<GraphType> vertex : vertices.values()) {
+
+			// Creates and loops over an iterator of each edge leaving the vertex
+			Iterator<Edge<GraphType>> edges = vertex.edges();
+			while (edges.hasNext()) {
+				Edge<GraphType> edge = edges.next();
+
+				// Checks if the index of the first vertex is larger than the index of the
+				// second vertex. If so, the list is incorrectly sorted and false is returned.
+				if (sortedList.indexOf(vertex.getID()) > sortedList.indexOf(edge.getOtherVertex().getID()))
+					return false;
+			}
+		}
+		
+		return true;
+	}
 }

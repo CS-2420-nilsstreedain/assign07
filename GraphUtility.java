@@ -24,7 +24,6 @@ public class GraphUtility {
 	 *         the graph of IDs
 	 */
 	private static <Type> Graph<Type> createGraphFromLists(List<Type> sources, List<Type> destinations) {
-
 		Graph<Type> graph = new Graph<>();
 
 		Iterator<Type> sourcesIterator = sources.iterator();
@@ -54,7 +53,6 @@ public class GraphUtility {
 	 */
 	public static <Type> boolean areConnected(List<Type> sources, List<Type> destinations, Type srcData, Type dstData)
 			throws IllegalArgumentException {
-
 		Graph<Type> graphToTraverse = createGraphFromLists(sources, destinations);
 
 		return graphToTraverse.areConnected(srcData, dstData);
@@ -79,7 +77,6 @@ public class GraphUtility {
 	 */
 	public static <Type> List<Type> shortestPath(List<Type> sources, List<Type> destinations, Type srcData,
 			Type dstData) throws IllegalArgumentException {
-
 		Graph<Type> graphToTraverse = createGraphFromLists(sources, destinations);
 
 		return graphToTraverse.shortestPath(srcData, dstData);
@@ -93,7 +90,6 @@ public class GraphUtility {
 	 * @throws IllegalArgumentException if the graph contains a cycle
 	 */
 	public static <Type> List<Type> sort(List<Type> sources, List<Type> destinations) throws IllegalArgumentException {
-		
 		Graph<Type> graphToTraverse = createGraphFromLists(sources, destinations);
 		
 		return graphToTraverse.sort();
