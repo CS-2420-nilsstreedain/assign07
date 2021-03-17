@@ -23,7 +23,10 @@ class GraphUtilityTester {
 	Graph<Integer> treeGraph;
 	Graph<Integer> complexCyclicGraph;
 	Graph<Integer> complexAcyclicGraph;
-
+	Graph<Integer> largeAcyclicGraph;
+	Graph<Integer> largeCyclicGraph;
+	Graph<Integer> largerAcyclicGraph;
+ 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 	}
@@ -78,6 +81,46 @@ class GraphUtilityTester {
 		complexAcyclicGraph.addEdge(3, 6);
 		complexAcyclicGraph.addEdge(3, 7);
 		complexAcyclicGraph.addEdge(4, 8);
+		
+		largeAcyclicGraph = new Graph<>();
+		largeAcyclicGraph.addEdge(1, 2);
+		largeAcyclicGraph.addEdge(2, 3);
+		largeAcyclicGraph.addEdge(1, 4);
+		largeAcyclicGraph.addEdge(4, 5);
+		largeAcyclicGraph.addEdge(5, 3);
+		largeAcyclicGraph.addEdge(1, 6);
+		largeAcyclicGraph.addEdge(6, 7);
+		largeAcyclicGraph.addEdge(7, 8);
+		largeAcyclicGraph.addEdge(8, 3);
+		
+		largeCyclicGraph = new Graph<>();
+		largeCyclicGraph.addEdge(1, 2);
+		largeCyclicGraph.addEdge(2, 3);
+		largeCyclicGraph.addEdge(1, 4);
+		largeCyclicGraph.addEdge(4, 2);
+		largeCyclicGraph.addEdge(1, 6);
+		largeCyclicGraph.addEdge(6, 4);
+		largeCyclicGraph.addEdge(3, 1);
+		
+		largerAcyclicGraph = new Graph<>();
+		largerAcyclicGraph.addEdge(1, 2);
+		largerAcyclicGraph.addEdge(1, 3);
+		largerAcyclicGraph.addEdge(1, 4);
+		largerAcyclicGraph.addEdge(1, 5);
+		
+		largerAcyclicGraph.addEdge(2, 3);
+		largerAcyclicGraph.addEdge(2, 4);
+		largerAcyclicGraph.addEdge(2, 5);
+		largerAcyclicGraph.addEdge(2, 6);
+		
+		largerAcyclicGraph.addEdge(3, 4);
+		largerAcyclicGraph.addEdge(3, 5);
+		largerAcyclicGraph.addEdge(3, 6);
+		
+		largerAcyclicGraph.addEdge(4, 5);
+		largerAcyclicGraph.addEdge(4, 6);
+		
+		largerAcyclicGraph.addEdge(5, 6);
 	}
 
 // Vertex and Edge class tests
@@ -520,5 +563,98 @@ class GraphUtilityTester {
 		assertThrows(IllegalArgumentException.class, () -> {
 			notConnectedGraph.shortestPath(99, 55);
 		});
+	}
+	
+	@Test
+	void chainGraphShortestPath() {
+		LinkedList<Integer> oneToFour = new LinkedList<>();
+		oneToFour.add(1);
+		oneToFour.add(2);
+		oneToFour.add(3);
+		oneToFour.add(4);
+		assertEquals(oneToFour, chainGraph.shortestPath(1, 4));
+	}
+	
+	@Test 
+	void cycleGraphShortestPath() {
+		LinkedList<Integer> threeToTwo = new LinkedList<>();
+		threeToTwo.add(3);
+		threeToTwo.add(1);
+		threeToTwo.add(2);
+
+		assertEquals(threeToTwo, cycleGraph.shortestPath(3, 2));
+	}
+	
+	@Test
+	void complexCyclicGraphShortestPath() {
+		LinkedList<Integer> name = new LinkedList<>();
+		name.add(1);
+		name.add(3);
+		name.add(6);
+		
+		assertEquals(name, complexCyclicGraph.shortestPath(1,6));
+	}
+	
+	@Test
+	void largeAcyclicGraphShortestPath() {
+		LinkedList<Integer> name = new LinkedList<>();
+		name.add(1);
+		name.add(2);
+		name.add(3);
+		
+		assertEquals(name, largeAcyclicGraph.shortestPath(1,3));
+		
+	}
+	
+	@Test
+	void largeCyclicGraphShortestPath() {
+		LinkedList<Integer> oneToFour = new LinkedList<>();
+		oneToFour.add(1);
+		oneToFour.add(4);
+		
+		assertEquals(oneToFour, largeCyclicGraph.shortestPath(1,4));
+		
+		LinkedList<Integer> oneToTwo = new LinkedList<>();
+		oneToTwo.add(1);
+		oneToTwo.add(2);
+		
+		assertEquals(oneToTwo, largeCyclicGraph.shortestPath(1,2));
+		
+		LinkedList<Integer> twoToFour = new LinkedList<>();
+		twoToFour.add(2);
+		twoToFour.add(3);
+		twoToFour.add(1);
+		twoToFour.add(4);
+		
+		assertEquals(twoToFour, largeCyclicGraph.shortestPath(2,4));
+		
+		LinkedList<Integer> threeToTwo = new LinkedList<>();
+		threeToTwo.add(3);
+		threeToTwo.add(1);
+		threeToTwo.add(2);
+		
+		assertEquals(threeToTwo, largeCyclicGraph.shortestPath(3,2));
+	}
+	
+	@Test
+	void largerAcyclicGraphShortestPath() {
+		LinkedList<Integer> oneToSix = new LinkedList<>();
+		oneToSix.add(1);
+		oneToSix.add(2);
+		oneToSix.add(6);
+		
+		assertEquals(oneToSix, largerAcyclicGraph.shortestPath(1,6));
+		
+		LinkedList<Integer> twoToSix = new LinkedList<>();
+		twoToSix.add(2);
+		twoToSix.add(6);
+		
+		assertEquals(twoToSix, largerAcyclicGraph.shortestPath(2,6));
+		
+		LinkedList<Integer> threeToSix = new LinkedList<>();
+		threeToSix.add(3);
+		threeToSix.add(6);
+		
+		assertEquals(threeToSix, largerAcyclicGraph.shortestPath(3,6));
 	}
 }

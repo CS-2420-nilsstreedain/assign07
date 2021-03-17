@@ -101,6 +101,7 @@ public class Graph<GraphType> {
 		Queue<Vertex<GraphType>> verticesToVisit = new LinkedList<Vertex<GraphType>>();
 
 		// add the first vertex to the queue
+		vertices.get(srcData).setVisited(true);
 		verticesToVisit.offer(vertices.get(srcData));
 		// while there are elements in the queue, check where they direct to
 		while (verticesToVisit.size() > 0) {
