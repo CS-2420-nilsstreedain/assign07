@@ -35,6 +35,8 @@ public class Graph<GraphType> {
 		if (vertices.get(srcData).equals(null) || vertices.get(dstData).equals(null))
 			throw new IllegalArgumentException();
 
+		for (Vertex<GraphType> vertex : vertices.values())
+			vertex.setVisited(false);
 		// the first element is the start, so it is already visited
 		vertices.get(srcData).setVisited(true);
 
@@ -42,6 +44,8 @@ public class Graph<GraphType> {
 		//if the above recursive call reaches srcData, its visited state
 		//will be set to true, so the below return will return whether
 		//or not the recursive call from src reached dst
+		System.out.println(vertices.get(srcData).getVisited());
+		System.out.println(vertices.get(dstData).getVisited());
 		return (vertices.get(dstData).getVisited());
 
 	}
@@ -91,6 +95,9 @@ public class Graph<GraphType> {
 		// srcData and dstData must both exist in the graph, otherwise throw exception
 		if (vertices.get(srcData).equals(null) || vertices.get(dstData).equals(null))
 			throw new IllegalArgumentException();
+		
+		for (Vertex<GraphType> vertex : vertices.values())
+			vertex.setVisited(false);
 
 		Queue<Vertex<GraphType>> verticesToVisit = new LinkedList<Vertex<GraphType>>();
 
@@ -154,6 +161,9 @@ public class Graph<GraphType> {
 	 * @throws IllegalArgumentException if the graph contains a cycle
 	 */
 	public List<GraphType> sort() throws IllegalArgumentException {
+		for (Vertex<GraphType> vertex : vertices.values())
+			vertex.setInDegree(0);
+		
 		// determine the inDegree for all vertices in the graph
 		for (Vertex<GraphType> vertex : vertices.values()) {
 			Iterator<Edge<GraphType>> edges = vertex.edges();
