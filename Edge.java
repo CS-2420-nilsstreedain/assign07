@@ -33,6 +33,8 @@ public class Edge<VertexType> {
 	
 	/**
 	 * Returns the ID of the destination Vertex as a textual representation of this Edge.
+	 * 
+	 * @return A String representation of this edge
 	 */
 	public String toString() {
 		return this.dst.getID().toString();

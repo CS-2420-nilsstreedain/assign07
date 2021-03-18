@@ -113,7 +113,6 @@ public class GraphUtility {
 	 *                     methods in this class
 	 */
 	public static void buildListsFromDot(String filename, ArrayList<String> sources, ArrayList<String> destinations) {
-
 		Scanner scan = null;
 		try {
 			scan = new Scanner(new File(filename));
@@ -138,6 +137,7 @@ public class GraphUtility {
 				break;
 			}
 		}
+		
 		if (edgeOp.equals("")) {
 			System.out.println("DOT graph must be directed (i.e., digraph).");
 			scan.close();

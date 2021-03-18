@@ -16,14 +16,18 @@ public class Vertex<T> {
 
 	// adjacency list
 	private LinkedList<Edge<T>> adj;
+
+	// indegree of the vertex
+	private int inDegree;
 	
+	// whether or not the vertex has been visited
 	private boolean visited;
 	
-	private Vertex<T> previous;
-	
+	// whether or not the vertex has a previous vertex
 	private boolean hasPrevious;
-	
-	private int inDegree;
+
+	// the vertex's previous vertex
+	private Vertex<T> previous;
 
 	/**
 	 * Creates a new Vertex object, using the given ID.
@@ -63,6 +67,8 @@ public class Vertex<T> {
 	
 	/**
 	 * Generates and returns a textual representation of this Vertex
+	 * 
+	 *  @return A String representation of this vertex
 	 */
 	public String toString() {
 		StringBuilder result = new StringBuilder("Vertex " + ID + " adjacent to verticies");
@@ -71,38 +77,77 @@ public class Vertex<T> {
 			result.append(" " + itr.next());
 		return result.toString();
 	}
-	
-	public boolean getVisited() {
-		return visited;
-	}
 
-	public void setVisited(boolean visited) {
-		this.visited = visited;
-	}
-	
-	public Vertex<T> getPrevious() {
-		return previous;
-	}
-
-	public void setPrevious(Vertex<T> previous) {
-		this.previous = previous;
-		hasPrevious = true;
-	}
-
+	/**
+	 * Returns the inDegree of this vertex
+	 * 
+	 * @return inDegree
+	 */
 	public int getInDegree() {
 		return inDegree;
 	}
 
+	/**
+	 * Sets the inDegree of this vertex
+	 * 
+	 * @param inDegree
+	 */
 	public void setInDegree(int inDegree) {
 		this.inDegree = inDegree;
 	}
 	
-	
+	/**
+	 * Returns whether or not this vertex has been visited
+	 * 
+	 * @return visited
+	 */
+	public boolean getVisited() {
+		return visited;
+	}
+
+	/**
+	 * Sets visited for this vertex
+	 * 
+	 * @param visited
+	 */
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+
+	/**
+	 * Returns whether or not this vertex has a previous vertex
+	 * 
+	 * @return hasPrevious
+	 */
 	public boolean hasPrevious() {
 		return hasPrevious;
 	}
-	
+
+	/**
+	 * Sets hasPrevioud for this vertex
+	 * 
+	 * @param hasPrevious
+	 */
 	public void setHasPrevious(boolean hasPrevious) {
 		this.hasPrevious = hasPrevious;
+	}
+	
+	/**
+	 * Returns the vertex leading to this vertex
+	 * 
+	 * @return previous
+	 */
+	public Vertex<T> getPrevious() {
+		return previous;
+	}
+
+	/**
+	 * Sets the previous vertex of this vertex
+	 * 
+	 * @param previous
+	 */
+	public void setPrevious(Vertex<T> previous) {
+		this.previous = previous;
+		hasPrevious = true;
 	}
 }

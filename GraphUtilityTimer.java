@@ -11,7 +11,7 @@ import java.util.Random;
 public class GraphUtilityTimer {
 
 	public static void main(String[] args) {
-		System.out.println("\nN\tnanoTime");
+		System.out.println("N\tnanoTime");
 
 		int incr = 500;
 		for (int probSize = 500; probSize <= 10000; probSize += incr) {

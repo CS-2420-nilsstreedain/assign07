@@ -128,7 +128,6 @@ public class Graph<GraphType> {
 					}
 					verticesToVisit.offer(w);
 				}
-
 			}
 		}
 
