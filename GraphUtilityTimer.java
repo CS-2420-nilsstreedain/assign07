@@ -72,7 +72,7 @@ public class GraphUtilityTimer {
 				graph.addEdge(vertex[i], vertex[i + 1 + rng.nextInt(vertexCount - (i + 1))]);
 
 		graph.addEdge("v1", vertex[rng.nextInt(vertexCount)]);
-		graph.addEdge("v2", vertex[rng.nextInt(vertexCount)]);
+		graph.addEdge("v2", vertex[2 + rng.nextInt(vertexCount - 2)]);
 		
 		return graph;
 	}
