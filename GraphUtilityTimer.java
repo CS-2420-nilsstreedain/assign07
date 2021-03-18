@@ -70,6 +70,9 @@ public class GraphUtilityTimer {
 		else 
 			for (int i = 0; i < vertexCount - 1; i++)
 				graph.addEdge(vertex[i], vertex[i + 1 + rng.nextInt(vertexCount - (i + 1))]);
+
+		graph.addEdge("v1", vertex[rng.nextInt(vertexCount)]);
+		graph.addEdge("v2", vertex[rng.nextInt(vertexCount)]);
 		
 		return graph;
 	}
