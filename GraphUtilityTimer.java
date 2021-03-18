@@ -1,8 +1,5 @@
 package assign07;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -14,7 +11,7 @@ import java.util.Random;
 public class GraphUtilityTimer {
 
 	public static void main(String[] args) {
-		System.out.println("\nN\t\tnanoTime");
+		System.out.println("\nN\tnanoTime");
 
 		int incr = 1000;
 		for (int probSize = 1000; probSize <= 15000; probSize += incr) {
