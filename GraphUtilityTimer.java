@@ -16,15 +16,12 @@ public class GraphUtilityTimer {
 	public static void main(String[] args) {
 		System.out.println("\nN\t\tnanoTime");
 
-		int incr = 100;
-		for (int probSize = 100; probSize <= 1500; probSize += incr) {
+		int incr = 1000;
+		for (int probSize = 1000; probSize <= 15000; probSize += incr) {
 
 			int timesToLoop = 10000;
 			
-			 generateRandomDotFile("src/assign07/dots.txt", probSize, true);
-			 ArrayList<String> sources = new ArrayList<>();
-			 ArrayList<String> destinations = new ArrayList<>();
-			 GraphUtility.buildListsFromDot("src/assign07/dots.txt", sources, destinations);
+			Graph<String> graph = generateRandomGraph(probSize, true);
 
 			// First, spin computing stuff until one second has gone by.
 			// This allows this thread to stabilize.
@@ -35,7 +32,7 @@ public class GraphUtilityTimer {
 			startTime = System.nanoTime();
 			
 			for (int i = 0; i < timesToLoop; i++) {
-				 GraphUtility.areConnected(sources, destinations, "v1", "v2");
+				 graph.areConnected("v1", "v2");
 			}
 
 			midpointTime = System.nanoTime();
@@ -91,5 +88,24 @@ public class GraphUtilityTimer {
 
 		out.println("}");
 		out.close();
+	}
+	
+	private static Graph<String> generateRandomGraph(int vertexCount, boolean cyclic) {
+		Random rng = new Random(1235967);
+		Graph<String> graph = new Graph<>();
+		
+		// generate a list of vertices
+		String[] vertex = new String[vertexCount];
+		for (int i = 0; i < vertexCount; i++)
+			vertex[i] = "v" + i;
+		
+		if(cyclic) 
+			for (int i = 0; i < 2 * vertexCount; i++)
+				graph.addEdge(vertex[rng.nextInt(vertexCount)], vertex[rng.nextInt(vertexCount)]);
+		else 
+			for (int i = 0; i < vertexCount - 1; i++)
+				graph.addEdge(vertex[i], vertex[i + 1 + rng.nextInt(vertexCount - (i + 1))]);
+		
+		return graph;
 	}
 }
