@@ -13,12 +13,11 @@ public class GraphUtilityTimer {
 	public static void main(String[] args) {
 		System.out.println("\nN\tnanoTime");
 
-		int incr = 1000;
-		for (int probSize = 1000; probSize <= 15000; probSize += incr) {
+		int incr = 100;
+		for (int probSize = 100; probSize <= 10000; probSize += incr) {
 
 			int timesToLoop = 10000;
 			
-			Graph<String> graph = generateRandomGraph(probSize, true);
 
 			// First, spin computing stuff until one second has gone by.
 			// This allows this thread to stabilize.
@@ -29,14 +28,18 @@ public class GraphUtilityTimer {
 			startTime = System.nanoTime();
 			
 			for (int i = 0; i < timesToLoop; i++) {
-				 graph.areConnected("v1", "v2");
+				Graph<String> graph = generateRandomGraph(probSize, true);
+				graph.areConnected("v1", "v2");
 			}
 
 			midpointTime = System.nanoTime();
 
 			// Capture the cost of running the loop and any other operations done
 			// above that are not the essential method call being timed.
-			for (int i = 0; i < timesToLoop; i++) {}
+			for (int i = 0; i < timesToLoop; i++) {
+				@SuppressWarnings("unused")
+				Graph<String> graph = generateRandomGraph(probSize, true);
+			}
 
 			stopTime = System.nanoTime();
 
