@@ -53,45 +53,13 @@ public class GraphUtilityTimer {
 	}
 
 	/**
-	 * Private helper method to generate random dot files for timing
+	 * Private helper method to generate random graphs for timing
 	 * 
-	 * @param filename    - name of generated file
 	 * @param vertexCount - number of vertices in graph
+	 * @param cyclic - whether or not a cyclic graph should be generated
 	 */
-	private static void generateRandomDotFile(String filename, int vertexCount, boolean cyclic) {
-		PrintWriter out = null;
-		try {
-			out = new PrintWriter(filename);
-		} catch (IOException e) {
-			System.out.println(e);
-		}
-
-		Random rng = new Random(1235967);
-
-		// randomly construct either a graph or a digraph
-		out.print("di");
-		out.println("graph G {");
-
-		// generate a list of vertices
-		String[] vertex = new String[vertexCount];
-		for (int i = 0; i < vertexCount; i++)
-			vertex[i] = "v" + i;
-
-		if (cyclic) {
-			// randomly connect the vertices using 2 * |V| edges
-			for (int i = 0; i < 2 * vertexCount; i++)
-				out.println("\t" + vertex[rng.nextInt(vertexCount)] + "->" + vertex[rng.nextInt(vertexCount)]);
-		} else {
-			for (int i = 0; i < vertexCount - 1; i++)
-				out.println("\t" + vertex[i] + "->" + vertex[i + 1 + rng.nextInt(vertexCount - (i + 1))]);
-		}
-
-		out.println("}");
-		out.close();
-	}
-	
 	private static Graph<String> generateRandomGraph(int vertexCount, boolean cyclic) {
-		Random rng = new Random(1235967);
+		Random rng = new Random();
 		Graph<String> graph = new Graph<>();
 		
 		// generate a list of vertices
