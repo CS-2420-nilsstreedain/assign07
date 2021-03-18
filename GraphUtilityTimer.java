@@ -13,10 +13,10 @@ public class GraphUtilityTimer {
 	public static void main(String[] args) {
 		System.out.println("\nN\tnanoTime");
 
-		int incr = 100;
-		for (int probSize = 100; probSize <= 10000; probSize += incr) {
+		int incr = 500;
+		for (int probSize = 500; probSize <= 10000; probSize += incr) {
 
-			int timesToLoop = 10000;
+			int timesToLoop = 6000;
 			
 
 			// First, spin computing stuff until one second has gone by.
@@ -26,10 +26,10 @@ public class GraphUtilityTimer {
 			}
 
 			startTime = System.nanoTime();
-			
+				
 			for (int i = 0; i < timesToLoop; i++) {
-				Graph<String> graph = generateRandomGraph(probSize, true);
-				graph.areConnected("v1", "v2");
+				Graph<String> graph = generateRandomGraph(probSize, false);
+				graph.sort();		
 			}
 
 			midpointTime = System.nanoTime();
@@ -38,7 +38,7 @@ public class GraphUtilityTimer {
 			// above that are not the essential method call being timed.
 			for (int i = 0; i < timesToLoop; i++) {
 				@SuppressWarnings("unused")
-				Graph<String> graph = generateRandomGraph(probSize, true);
+				Graph<String> graph = generateRandomGraph(probSize, false);
 			}
 
 			stopTime = System.nanoTime();
@@ -68,14 +68,17 @@ public class GraphUtilityTimer {
 			vertex[i] = "v" + i;
 		
 		if(cyclic) 
-			for (int i = 0; i < 2 * vertexCount; i++)
+			for (int i = 0; i < 2 * vertexCount; i++) {
 				graph.addEdge(vertex[rng.nextInt(vertexCount)], vertex[rng.nextInt(vertexCount)]);
+				graph.addEdge("v1", vertex[rng.nextInt(vertexCount)]);
+				graph.addEdge("v2", vertex[2 + rng.nextInt(vertexCount - 2)]);
+			}	
 		else 
-			for (int i = 0; i < vertexCount - 1; i++)
+			for (int i = 0; i < vertexCount - 1; i++) {
 				graph.addEdge(vertex[i], vertex[i + 1 + rng.nextInt(vertexCount - (i + 1))]);
+				graph.addEdge(vertex[i], vertex[i + 1 + rng.nextInt(vertexCount - (i + 1))]);
+			}
 
-		graph.addEdge("v1", vertex[rng.nextInt(vertexCount)]);
-		graph.addEdge("v2", vertex[2 + rng.nextInt(vertexCount - 2)]);
 		
 		return graph;
 	}
